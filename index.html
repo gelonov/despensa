@@ -3,214 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>La Despensa de Kora</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1f2937">
-    <script src="https://jsdelivr.net"></script>
-    <script src="https://jsdelivr.net"></script>
+    <title>Despensa Kora</title>
     <style>
-        :root { --fondo: #0d1117; --card: #1f2937; --txt: #ffffff; --success: #22c55e; --danger: #ef4444; --whatsapp: #25D366; --borde: #30363d; --accent: #58a6ff; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
-        body { background: var(--fondo); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: var(--txt); }
-        
-        header { background: var(--card); padding: 18px; text-align: center; border-bottom: 1px solid var(--borde); position: relative; }
-        header h1 { font-size: 1.4rem; font-weight: bold; }
-        .btn-reset { position: absolute; right: 15px; top: 18px; background: none; border: none; font-size: 1.4rem; cursor: pointer; }
-
-        .search-container { padding: 10px; background: var(--fondo); }
-        #buscador { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--borde); background: #161b22; color: white; outline: none; }
-
-        main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 110px; }
-        .card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid var(--borde); display: flex; justify-content: space-between; align-items: center; }
-        .fam-tag { font-size: 10px; background: var(--accent); padding: 2px 8px; border-radius: 6px; font-weight: bold; }
-
-        .controls { display: flex; align-items: center; gap: 10px; }
-        .btn-qty { border: none; width: 38px; height: 38px; border-radius: 10px; color: white; font-weight: bold; font-size: 20px; cursor: pointer; }
-        .btn-action { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; }
-
-        nav { position: fixed; bottom: 0; width: 100%; background: var(--fondo); display: flex; justify-content: space-around; padding: 10px 0 25px 0; border-top: 1px solid var(--borde); }
-        .nav-item { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; opacity: 0.5; transition: 0.3s; }
-        .nav-item.active { opacity: 1; transform: scale(1.1); }
-        .nav-icon { font-size: 24px; margin-bottom: 4px; }
-        .nav-label { font-size: 10px; font-weight: bold; text-transform: uppercase; color: var(--txt); }
-
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; border: 1px solid var(--borde); max-height: 90vh; overflow-y: auto; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--borde); background: #0d1117; color: white; font-size: 16px; }
-        .btn-block { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; color: white; cursor: pointer; }
-        
-        #scanner-view { display: none; position: fixed; inset: 0; background: black; z-index: 200; }
-        video { width: 100%; height: 60%; object-fit: cover; }
-        #loading-overlay { display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; align-items: center; justify-content: center; }
+        :root { --f: #0d1117; --c: #1f2937; --t: #ffffff; --s: #22c55e; --d: #ef4444; --w: #25D366; --b: #30363d; --a: #58a6ff; }
+        * { box-sizing: border-box; font-family: sans-serif; margin: 0; padding: 0; }
+        body { background: var(--f); color: var(--t); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: var(--c); padding: 20px; text-align: center; border-bottom: 1px solid var(--b); font-weight: bold; font-size: 1.2rem; }
+        .search { padding: 10px; }
+        #busc { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--b); background: #161b22; color: white; outline: none; }
+        main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px; }
+        .card { background: var(--c); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--b); display: flex; justify-content: space-between; align-items: center; }
+        .controls { display: flex; align-items: center; gap: 8px; }
+        .btn { border: none; width: 35px; height: 35px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 18px; }
+        .btn-del { background: none; font-size: 1.2rem; }
+        nav { position: fixed; bottom: 0; width: 100%; background: var(--f); display: flex; justify-content: space-around; padding: 10px 0 25px 0; border-top: 1px solid var(--b); }
+        .nav-btn { background: none; border: none; color: #8b949e; cursor: pointer; text-align: center; }
+        .nav-btn.active { color: var(--a); transform: scale(1.1); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10; padding: 20px; align-items: center; justify-content: center; }
+        .modal-cont { background: var(--c); padding: 20px; border-radius: 15px; width: 100%; max-width: 400px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid var(--b); background: #0d1117; color: white; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>La Despensa de Kora</h1>
-    <button class="btn-reset" onclick="app.borrarTodo()">🗑️</button>
-</header>
+<header>La Despensa de Kora</header>
+<div class="search"><input type="text" id="busc" placeholder="🔍 Buscar..." oninput="render()"></div>
+<main id="lista"></main>
 
-<div id="loading-overlay">
-    <div style="font-size: 2rem;">⏳</div>
-    <p>Analizando Ticket...</p>
-</div>
-
-<div class="search-container">
-    <input type="text" id="buscador" placeholder="🔍 Buscar producto..." oninput="app.render()">
-</div>
-
-<main id="app-render"></main>
-
-<div id="scanner-view">
-    <video id="video" autoplay muted playsinline></video>
-    <div style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
-        <button class="btn-block" style="background:var(--accent)" onclick="document.getElementById('file-input').click()">📁 SUBIR FOTO TICKET/CÓDIGO</button>
-        <input type="file" id="file-input" accept="image/*" style="display:none" onchange="app.scanFile(event)">
-        <button class="btn-block bg-red" onclick="app.stopScan()">CERRAR</button>
-    </div>
-</div>
-
-<div id="modal-add" class="modal">
-    <div class="modal-content">
-        <h3 id="modal-title">Nuevo Producto</h3>
-        <input type="text" id="p-familia" list="familias-list" placeholder="Familia (Escribe o elige)">
-        <datalist id="familias-list">
-            <option value="🥛 Lácteos"><option value="🍎 Fruta/Verdura"><option value="🥩 Carnes/Pescados"><option value="🌾 Despensa">
-        </datalist>
-        <input type="text" id="p-nombre" placeholder="Nombre">
-        <input type="number" id="p-precio" step="0.01" placeholder="Precio (€)">
-        <input type="text" id="p-super" placeholder="Supermercado">
-        <div style="display:flex; gap:10px">
-            <input type="number" id="p-qty" placeholder="Cant."><input type="number" id="p-min" placeholder="Mín.">
-        </div>
-        <input type="hidden" id="edit-id">
-        <button class="btn-block" style="background:var(--success)" onclick="app.guardarProducto()">GUARDAR</button>
-        <button class="btn-block" style="background:#484f58" onclick="app.toggleModal(false)">CANCELAR</button>
+<div id="mod" class="modal">
+    <div class="modal-cont">
+        <h3 id="mod-tit">Nuevo Producto</h3>
+        <input type="text" id="p-fam" placeholder="Familia (Lácteos, Fruta...)">
+        <input type="text" id="p-nom" placeholder="Nombre">
+        <input type="number" id="p-pre" step="0.01" placeholder="Precio €">
+        <input type="text" id="p-sup" placeholder="Supermercado">
+        <div style="display:flex; gap:5px"><input type="number" id="p-can" placeholder="Stock"><input type="number" id="p-min" placeholder="Aviso Mín"></div>
+        <button onclick="guardar()" style="background:var(--s); width:100%; padding:10px; border:none; color:white; border-radius:5px; margin-top:10px; font-weight:bold;">GUARDAR</button>
+        <button onclick="cerrar()" style="background:#444; width:100%; padding:10px; border:none; color:white; border-radius:5px; margin-top:5px;">CANCELAR</button>
     </div>
 </div>
 
 <nav>
-    <button class="nav-item active" id="nav-casa" onclick="app.cambiarVista('casa', this)">
-        <div class="nav-icon">🏠</div><div class="nav-label">Casa</div>
-    </button>
-    <button class="nav-item" onclick="app.toggleModal(true)">
-        <div class="nav-icon">➕</div><div class="nav-label">Nuevo</div>
-    </button>
-    <button class="nav-item" onclick="app.startScan()">
-        <div class="nav-icon">📷</div><div class="nav-label">Scan</div>
-    </button>
-    <button class="nav-item" id="nav-lista" onclick="app.cambiarVista('lista', this)">
-        <div class="nav-icon">🛒</div><div class="nav-label">Lista</div>
-    </button>
+    <button class="nav-btn active" id="btn-casa" onclick="cambiar('casa')">🏠<br><small>Casa</small></button>
+    <button class="nav-btn" onclick="abrir()">➕<br><small>Nuevo</small></button>
+    <button class="nav-btn" id="btn-lista" onclick="cambiar('lista')">🛒<br><small>Lista</small></button>
 </nav>
 
 <script>
-const app = {
-    view: 'casa',
-    inventario: JSON.parse(localStorage.getItem('kora_vFinal')) || [],
-    reader: new ZXing.BrowserMultiFormatReader(),
+    let db = JSON.parse(localStorage.getItem('kora_db')) || [];
+    let vista = 'casa';
 
-    init() { this.render(); },
+    function render() {
+        const cont = document.getElementById('lista');
+        const filtro = document.getElementById('busc').value.toLowerCase();
+        let items = [...db];
+        if (vista === 'lista') items = items.filter(p => p.can <= p.min);
+        items = items.filter(p => p.nom.toLowerCase().includes(filtro));
 
-    render() {
-        const container = document.getElementById('app-render');
-        const term = document.getElementById('buscador').value.toLowerCase();
-        let listado = [...this.inventario];
-        if (this.view === 'lista') listado = listado.filter(p => p.cantidad <= p.stockBajo);
-        listado = listado.filter(p => p.nombre.toLowerCase().includes(term));
-
-        let html = (this.view === 'lista' && listado.length > 0) ? `<button class="btn-block" style="background:var(--whatsapp); margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR WHATSAPP</button>` : "";
-        listado.forEach(p => {
+        let html = (vista === 'lista' && items.length > 0) ? `<button onclick="wa()" style="width:100%; background:var(--w); color:white; padding:10px; border:none; border-radius:8px; margin-bottom:10px; font-weight:bold;">🟢 ENVIAR WHATSAPP</button>` : "";
+        
+        items.forEach(p => {
             html += `<div class="card">
-                <div style="max-width:55%">
-                    <span class="fam-tag">${p.familia}</span><br>
-                    <strong>${p.nombre}</strong><br>
-                    <small>${p.super} | ${p.precio.toFixed(2)}€</small>
+                <div style="max-width:60%">
+                    <small style="color:var(--a)">${p.fam}</small><br>
+                    <strong>${p.nom}</strong><br>
+                    <small>${p.can} uds | ${p.pre}€</small>
                 </div>
                 <div class="controls">
-                    <button class="btn-qty" style="background:var(--danger)" onclick="app.cambiarStock(${p.id}, -1)">-</button>
-                    <b>${p.cantidad}</b>
-                    <button class="btn-qty" style="background:var(--success)" onclick="app.cambiarStock(${p.id}, 1)">+</button>
-                    <button class="btn-action" onclick="app.editarProducto(${p.id})">✏️</button>
-                    <button class="btn-action" onclick="app.borrarProducto(${p.id})">🗑️</button>
+                    <button class="btn" style="background:var(--d)" onclick="stock(${p.id},-1)">-</button>
+                    <b>${p.can}</b>
+                    <button class="btn" style="background:var(--s)" onclick="stock(${p.id},1)">+</button>
+                    <button class="btn-del" onclick="borrar(${p.id})">🗑️</button>
                 </div>
             </div>`;
         });
-        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">Sin productos</p>`;
-    },
-
-    guardarProducto() {
-        const id = document.getElementById('edit-id').value;
-        const pData = {
-            familia: document.getElementById('p-familia').value || 'Varios',
-            nombre: document.getElementById('p-nombre').value,
-            precio: parseFloat(document.getElementById('p-precio').value) || 0,
-            super: document.getElementById('p-super').value || 'Súper',
-            cantidad: parseInt(document.getElementById('p-qty').value) || 0,
-            stockBajo: parseInt(document.getElementById('p-min').value) || 1
-        };
-
-        if(id) {
-            const index = this.inventario.findIndex(p => p.id == id);
-            this.inventario[index] = { ...this.inventario[index], ...pData };
-        } else {
-            this.inventario.push({ id: Date.now(), ...pData });
-        }
-        this.save(); this.toggleModal(false); this.render();
-    },
-
-    editarProducto(id) {
-        const p = this.inventario.find(p => p.id === id);
-        document.getElementById('modal-title').innerText = "Editar Producto";
-        document.getElementById('edit-id').value = p.id;
-        document.getElementById('p-familia').value = p.familia;
-        document.getElementById('p-nombre').value = p.nombre;
-        document.getElementById('p-precio').value = p.precio;
-        document.getElementById('p-super').value = p.super;
-        document.getElementById('p-qty').value = p.cantidad;
-        document.getElementById('p-min').value = p.stockBajo;
-        this.toggleModal(true);
-    },
-
-    borrarProducto(id) { if(confirm("¿Eliminar producto?")) { this.inventario = this.inventario.filter(p => p.id !== id); this.save(); this.render(); } },
-    borrarTodo() { if(confirm("⚠️ ¿BORRAR TODA LA APP?")) { this.inventario = []; this.save(); this.render(); } },
-    cambiarStock(id, d) { const p = this.inventario.find(i => i.id === id); p.cantidad = Math.max(0, p.cantidad + d); this.save(); this.render(); },
-    cambiarVista(v, btn) { this.view = v; document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); btn.classList.add('active'); this.render(); },
-    save() { localStorage.setItem('kora_vFinal', JSON.stringify(this.inventario)); },
-    toggleModal(s) { 
-        if(!s) { document.getElementById('edit-id').value = ""; document.getElementById('modal-title').innerText = "Nuevo Producto"; document.querySelectorAll('.modal-content input').forEach(i => i.value = ""); }
-        document.getElementById('modal-add').style.display = s ? 'flex' : 'none'; 
-    },
-    async scanFile(e) {
-        const file = e.target.files; if (!file) return;
-        document.getElementById('loading-overlay').style.display = 'flex';
-        try {
-            const imgUrl = URL.createObjectURL(file[0]);
-            try {
-                const res = await this.reader.decodeFromImageUrl(imgUrl);
-                this.buscarAPI(res.text);
-            } catch {
-                const { data: { text } } = await Tesseract.recognize(imgUrl, 'spa');
-                let count = 0;
-                text.split('\n').forEach(l => {
-                    const p = this.inventario.find(p => l.toUpperCase().includes(p.nombre.toUpperCase()));
-                    if(p) { p.cantidad++; count++; }
-                });
-                alert(`Ticket leído: ${count} productos sumados.`);
-            }
-        } catch { alert("Error al leer imagen."); }
-        document.getElementById('loading-overlay').style.display = 'none'; this.render();
-    },
-    startScan() { document.getElementById('scanner-view').style.display = 'block'; },
-    stopScan() { document.getElementById('scanner-view').style.display = 'none'; },
-    exportarWA() {
-        let msg = "*📝 LISTA DE KORA*\n\n";
-        this.inventario.filter(p => p.cantidad <= p.stockBajo).forEach(p => msg += `• ${p.nombre}\n`);
-        window.location.href = "https://whatsapp.com" + encodeURIComponent(msg);
+        cont.innerHTML = html || '<p style="text-align:center; color:#888; margin-top:20px;">No hay productos</p>';
     }
-};
-window.onload = () => app.init();
+
+    function guardar() {
+        const p = {
+            id: Date.now(),
+            fam: document.getElementById('p-fam').value || 'Varios',
+            nom: document.getElementById('p-nom').value,
+            pre: parseFloat(document.getElementById('p-pre').value) || 0,
+            sup: document.getElementById('p-sup').value || 'Súper',
+            can: parseInt(document.getElementById('p-can').value) || 0,
+            min: parseInt(document.getElementById('p-min').value) || 1
+        };
+        if(!p.nom) return alert("Pon un nombre");
+        db.push(p);
+        localStorage.setItem('kora_db', JSON.stringify(db));
+        cerrar(); render();
+    }
+
+    function stock(id, n) {
+        const p = db.find(x => x.id === id);
+        p.can = Math.max(0, p.can + n);
+        localStorage.setItem('kora_db', JSON.stringify(db));
+        render();
+    }
+
+    function borrar(id) { if(confirm("¿Borrar?")) { db = db.filter(x => x.id !== id); localStorage.setItem('kora_db', JSON.stringify(db)); render(); } }
+    function abrir() { document.getElementById('mod').style.display = 'flex'; }
+    function cerrar() { document.getElementById('mod').style.display = 'none'; document.querySelectorAll('input').forEach(i => i.value=""); }
+    function cambiar(v) { 
+        vista = v; 
+        document.getElementById('btn-casa').classList.toggle('active', v==='casa');
+        document.getElementById('btn-lista').classList.toggle('active', v==='lista');
+        render(); 
+    }
+    function wa() {
+        let t = "*LISTA DE COMPRA*\n";
+        db.filter(p => p.can <= p.min).forEach(p => t += "- " + p.nom + "\n");
+        window.location.href = "https://whatsapp.com" + encodeURIComponent(t);
+    }
+    render();
 </script>
 </body>
 </html>
