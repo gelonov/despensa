@@ -3,60 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>nykdesp</title>
+    <title>La Despensa de Kora</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1f2937">
-    <script src="https://unpkg.com"></script>
+    <script src="https://jsdelivr.net"></script>
+    <script src="https://jsdelivr.net"></script>
     <style>
-        :root { 
-            --fondo-noche: #0d1117; 
-            --azul-principal: #1f2937; 
-            --texto-blanco: #ffffff;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --whatsapp: #25D366;
-            --borde: #30363d;
-        }
-
+        :root { --fondo-noche: #0d1117; --azul-principal: #1f2937; --texto-blanco: #ffffff; --success: #22c55e; --danger: #ef4444; --whatsapp: #25D366; --borde: #30363d; }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: var(--fondo-noche); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: var(--texto-blanco); }
-
-        header { background: var(--azul-principal); color: var(--texto-blanco); padding: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-bottom: 1px solid var(--borde); }
-        header h1 { font-size: 1.5rem; font-weight: bold; letter-spacing: 0.5px; }
+        header { background: var(--azul-principal); padding: 20px; text-align: center; border-bottom: 1px solid var(--borde); position: relative; }
+        header h1 { font-size: 1.5rem; font-weight: bold; }
+        
+        .btn-reset { position: absolute; right: 15px; top: 22px; background: none; border: none; font-size: 1.2rem; cursor: pointer; }
 
         .search-container { padding: 12px; background: var(--fondo-noche); }
-        #buscador { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: #161b22; color: white; font-size: 16px; outline: none; }
+        #buscador { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: #161b22; color: white; outline: none; }
 
         main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px; }
-        .card { background: var(--azul-principal); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--borde); transition: 0.3s; }
-        .super-tag { font-size: 12px; background: #374151; padding: 3px 10px; border-radius: 8px; color: #cbd5e1; margin-top: 5px; display: inline-block; }
+        .card { background: var(--azul-principal); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--borde); position: relative; }
+        .fam-tag { font-size: 10px; background: #58a6ff; padding: 2px 8px; border-radius: 6px; font-weight: bold; }
+        
+        .btn-delete-item { background: none; border: none; color: var(--danger); font-size: 1.2rem; margin-left: 10px; cursor: pointer; }
 
         .controls { display: flex; align-items: center; gap: 15px; }
-        .btn-qty { border: none; width: 42px; height: 42px; border-radius: 12px; color: white; font-weight: bold; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .bg-red { background: var(--danger); }
-        .bg-green { background: var(--success); }
-
+        .btn-qty { border: none; width: 42px; height: 42px; border-radius: 12px; color: white; font-weight: bold; font-size: 24px; cursor: pointer; }
+        
         nav { position: fixed; bottom: 0; width: 100%; background: var(--fondo-noche); display: flex; justify-content: space-around; padding: 10px 0 25px 0; border-top: 1px solid var(--borde); }
-        .nav-item { background: none; border: none; color: #8b949e; font-size: 32px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+        .nav-item { background: none; border: none; color: #8b949e; font-size: 32px; display: flex; flex-direction: column; align-items: center; }
         .nav-item span { font-size: 11px; margin-top: 4px; font-weight: 600; }
         .nav-item.active { color: #58a6ff; }
 
-        /* Modal */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: var(--azul-principal); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; color: white; border: 1px solid var(--borde); overflow-y: auto; max-height: 90vh; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--borde); background: #0d1117; color: white; }
-        .btn-block { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 16px; }
+        .modal-content { background: var(--azul-principal); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; border: 1px solid var(--borde); overflow-y: auto; max-height: 90vh; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--borde); background: #0d1117; color: white; font-size: 16px; }
+        .btn-block { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; color: white; cursor: pointer; }
         
-        /* Scanner con Guía */
         #scanner-view { display: none; position: fixed; inset: 0; background: black; z-index: 200; }
-        .video-wrapper { position: relative; width: 100%; height: 65%; overflow: hidden; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-        .scanner-guide { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 30%; border: 2px solid var(--success); border-radius: 10px; box-shadow: 0 0 0 4000px rgba(0,0,0,0.5); pointer-events: none; }
+        video { width: 100%; height: 60%; object-fit: cover; }
+        #loading-overlay { display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
-<header><h1>La Despensa de Kora</h1></header>
+<header>
+    <h1>La Despensa de Kora</h1>
+    <button class="btn-reset" onclick="app.borrarTodo()" title="Borrar todo">🗑️</button>
+</header>
+
+<div id="loading-overlay">
+    <div style="font-size: 2rem;">⏳</div>
+    <p>Leyendo Ticket...</p>
+</div>
 
 <div class="search-container">
     <input type="text" id="buscador" placeholder="🔍 Buscar producto..." oninput="app.render()">
@@ -65,52 +63,47 @@
 <main id="app-render"></main>
 
 <div id="scanner-view">
-    <div class="video-wrapper">
-        <video id="video" autoplay muted playsinline></video>
-        <div class="scanner-guide"></div>
-    </div>
+    <video id="video" autoplay muted playsinline></video>
     <div style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
-        <button class="btn-block" style="background:#58a6ff; color:white;" onclick="document.getElementById('file-input').click()">📁 SUBIR FOTO CÓDIGO</button>
+        <button class="btn-block" style="background:#58a6ff" onclick="document.getElementById('file-input').click()">📁 SUBIR FOTO TICKET/CÓDIGO</button>
         <input type="file" id="file-input" accept="image/*" style="display:none" onchange="app.scanFile(event)">
-        <button class="btn-block bg-red" onclick="app.stopScan()">CERRAR CÁMARA</button>
+        <button class="btn-block" style="background:var(--danger)" onclick="app.stopScan()">CERRAR</button>
     </div>
 </div>
 
 <div id="modal-add" class="modal">
     <div class="modal-content">
         <h3>Nuevo Producto</h3>
-        <input type="text" id="p-barcode" placeholder="Código de barras (opcional)">
+        <input type="text" id="p-familia" list="familias-list" placeholder="Familia (Escribe o elige)">
+        <datalist id="familias-list">
+            <option value="🥛 Lácteos"><option value="🍎 Fruta/Verdura"><option value="🥩 Carnes/Pescados"><option value="🌾 Despensa"><option value="🥤 Bebidas"><option value="🧼 Limpieza"><option value="🪥 Higiene">
+        </datalist>
         <input type="text" id="p-nombre" placeholder="Nombre">
         <input type="number" id="p-precio" step="0.01" placeholder="Precio (€)">
         <input type="text" id="p-super" placeholder="Supermercado">
         <div style="display:flex; gap:10px">
-            <input type="number" id="p-qty" placeholder="Cantidad">
-            <input type="number" id="p-min" placeholder="Aviso Mín.">
+            <input type="number" id="p-qty" placeholder="Cant."><input type="number" id="p-min" placeholder="Aviso Mín.">
         </div>
-        <button class="btn-block bg-green" onclick="app.guardarManual()">GUARDAR</button>
-        <button class="btn-block" style="background:#484f58; color:white;" onclick="app.toggleModal(false)">CANCELAR</button>
+        <input type="text" id="p-barcode" placeholder="Código (opcional)">
+        <button class="btn-block" style="background:var(--success)" onclick="app.guardarManual()">GUARDAR</button>
+        <button class="btn-block" style="background:#484f58" onclick="app.toggleModal(false)">CANCELAR</button>
     </div>
 </div>
 
 <nav>
-    <button id="nav-casa" class="nav-item active" onclick="app.cambiarVista('casa')">🏠<span>Casa</span></button>
+    <button class="nav-item active" onclick="app.cambiarVista('casa', this)">🏠<span>Casa</span></button>
     <button class="nav-item" onclick="app.toggleModal(true)">➕<span>Nuevo</span></button>
     <button class="nav-item" onclick="app.startScan()">📷<span>Scan</span></button>
-    <button id="nav-lista" class="nav-item" onclick="app.cambiarVista('lista')">🛒<span>Lista</span></button>
+    <button class="nav-item" onclick="app.cambiarVista('lista', this)">🛒<span>Lista</span></button>
 </nav>
 
 <script>
 const app = {
     view: 'casa',
-    inventario: JSON.parse(localStorage.getItem('despensa_db')) || [],
-    reader: null,
-    stream: null,
+    inventario: JSON.parse(localStorage.getItem('despensa_kora_final')) || [],
+    reader: new ZXing.BrowserMultiFormatReader(),
 
-    init() {
-        try { if (typeof ZXing !== 'undefined') this.reader = new ZXing.BrowserMultiFormatReader(); } 
-        catch (e) { console.error(e); }
-        this.render();
-    },
+    init() { this.render(); },
 
     render() {
         const container = document.getElementById('app-render');
@@ -119,98 +112,96 @@ const app = {
         if (this.view === 'lista') listado = listado.filter(p => p.cantidad <= p.stockBajo);
         listado = listado.filter(p => p.nombre.toLowerCase().includes(term));
 
-        let html = (this.view === 'lista' && listado.length > 0) ? `<button class="btn-block" style="background:var(--whatsapp); color:white; margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR LISTA WHATSAPP</button>` : "";
+        let html = (this.view === 'lista' && listado.length > 0) ? `<button class="btn-block" style="background:var(--whatsapp); margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR WHATSAPP</button>` : "";
         listado.forEach(p => {
-            html += `<div class="card" id="prod-${p.id}"><div><strong style="font-size:1.1rem">${p.nombre}</strong><br><span class="super-tag">${p.super}</span> <small style="color:#8b949e; margin-left:5px">${p.precio.toFixed(2)}€</small></div><div class="controls"><button class="btn-qty bg-red" onclick="app.cambiarStock(${p.id}, -1)">-</button><span class="stock-num">${p.cantidad}</span><button class="btn-qty bg-green" onclick="app.cambiarStock(${p.id}, 1)">+</button></div></div>`;
+            html += `
+                <div class="card">
+                    <div style="max-width:60%">
+                        <span class="fam-tag">${p.familia}</span><br>
+                        <strong>${p.nombre}</strong><br>
+                        <small>${p.super} | ${p.precio.toFixed(2)}€</small>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-qty" style="background:var(--danger)" onclick="app.cambiarStock(${p.id}, -1)">-</button>
+                        <b style="min-width:25px;text-align:center">${p.cantidad}</b>
+                        <button class="btn-qty" style="background:var(--success)" onclick="app.cambiarStock(${p.id}, 1)">+</button>
+                        <button class="btn-delete-item" onclick="app.borrarProducto(${p.id})">🗑️</button>
+                    </div>
+                </div>`;
         });
-        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">No hay productos...</p>`;
+        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">Sin productos</p>`;
     },
 
-    cambiarVista(v) { this.view = v; this.render(); document.getElementById('nav-casa').classList.toggle('active', v === 'casa'); document.getElementById('nav-lista').classList.toggle('active', v === 'lista'); },
-
-    cambiarStock(id, delta) {
-        const p = this.inventario.find(i => i.id === id);
-        p.cantidad = Math.max(0, p.cantidad + delta);
-        this.save();
-        if (this.view === 'lista' && p.cantidad > p.stockBajo) {
-            document.getElementById(`prod-${id}`).style.opacity = '0';
-            setTimeout(() => this.render(), 400);
-        } else this.render();
-    },
-
-    async startScan() {
-        document.getElementById('scanner-view').style.display = 'block';
-        try {
-            const videoElement = document.getElementById('video');
-            const devices = await this.reader.listVideoInputDevices();
-            const backCam = devices.find(d => d.label.toLowerCase().includes('back')) || devices[devices.length - 1];
-            
-            this.stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: backCam ? backCam.deviceId : undefined, zoom: true } });
-            videoElement.srcObject = this.stream;
-
-            await this.reader.decodeFromVideoDevice(backCam ? backCam.deviceId : undefined, videoElement, (res) => {
-                if (res) { this.stopScan(); this.buscarAPI(res.text); }
-            });
-        } catch (e) { alert("Usa 'SUBIR FOTO' si la cámara falla."); }
-    },
-
-    async scanFile(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        try {
-            const res = await this.reader.decodeFromImageUrl(URL.createObjectURL(file));
-            this.stopScan(); this.buscarAPI(res.text);
-        } catch (err) { alert("No se leyó bien. ¡Acerca más la foto al código!"); }
-    },
-
-    async buscarAPI(code) {
-        let ex = this.inventario.find(p => p.barcode === code);
-        if (ex) this.cambiarStock(ex.id, 1);
-        else {
-            try {
-                const r = await fetch(`https://openfoodfacts.org{code}.json`);
-                const d = await r.json();
-                this.toggleModal(true);
-                document.getElementById('p-barcode').value = code;
-                if (d.status === 1) {
-                    document.getElementById('p-nombre').value = d.product.product_name || "";
-                    document.getElementById('p-super').value = d.product.brands || "";
-                }
-            } catch (err) { this.toggleModal(true); document.getElementById('p-barcode').value = code; }
+    borrarProducto(id) {
+        if(confirm("¿Seguro que quieres eliminar este producto?")) {
+            this.inventario = this.inventario.filter(p => p.id !== id);
+            this.save(); this.render();
         }
     },
 
+    borrarTodo() {
+        if(confirm("⚠️ ¿BORRAR TODA LA DESPENSA? Esta acción no se puede deshacer.")) {
+            this.inventario = [];
+            this.save(); this.render();
+        }
+    },
+
+    async scanFile(e) {
+        const file = e.target.files; if (!file) return;
+        const imgUrl = URL.createObjectURL(file);
+        document.getElementById('loading-overlay').style.display = 'flex';
+        try {
+            const res = await this.reader.decodeFromImageUrl(imgUrl);
+            this.stopScan(); this.buscarAPI(res.text);
+        } catch (err) {
+            const { data: { text } } = await Tesseract.recognize(imgUrl, 'spa');
+            this.analizarTicket(text);
+        }
+        document.getElementById('loading-overlay').style.display = 'none';
+    },
+
+    analizarTicket(texto) {
+        const lineas = texto.split('\n'); let sumados = 0;
+        lineas.forEach(l => {
+            const prod = this.inventario.find(p => l.toUpperCase().includes(p.nombre.toUpperCase()));
+            if(prod) { 
+                prod.cantidad += 1; 
+                const pr = l.replace(',','.').match(/(\d+\.\d{2})/);
+                if(pr) prod.precio = parseFloat(pr);
+                sumados++;
+            }
+        });
+        this.save(); this.render();
+        alert(sumados > 0 ? `Se han sumado ${sumados} artículos.` : "No se reconoció nada del ticket.");
+    },
+
     guardarManual() {
-        const p = {
-            id: Date.now(),
-            barcode: document.getElementById('p-barcode').value,
-            nombre: document.getElementById('p-nombre').value || "Nuevo",
-            precio: parseFloat(document.getElementById('p-precio').value) || 0,
-            super: document.getElementById('p-super').value || "Varios",
-            cantidad: parseInt(document.getElementById('p-qty').value) || 0,
-            stockBajo: parseInt(document.getElementById('p-min').value) || 1
-        };
+        const p = { id: Date.now(), familia: document.getElementById('p-familia').value || 'Varios', nombre: document.getElementById('p-nombre').value, precio: parseFloat(document.getElementById('p-precio').value) || 0, super: document.getElementById('p-super').value || 'Súper', cantidad: parseInt(document.getElementById('p-qty').value) || 0, stockBajo: parseInt(document.getElementById('p-min').value) || 1, barcode: document.getElementById('p-barcode').value };
         this.inventario.push(p); this.save(); this.toggleModal(false); this.render();
-        ['p-barcode','p-nombre','p-precio','p-super','p-qty','p-min'].forEach(id => document.getElementById(id).value = "");
+    },
+
+    cambiarStock(id, d) {
+        const p = this.inventario.find(i => i.id === id);
+        p.cantidad = Math.max(0, p.cantidad + d);
+        this.save(); this.render();
+    },
+
+    cambiarVista(v, btn) {
+        this.view = v;
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        btn.classList.add('active'); this.render();
     },
 
     exportarWA() {
-        const faltantes = this.inventario.filter(p => p.cantidad <= p.stockBajo);
-        let msg = "*📝 LISTA DE COMPRA DE KORA*\n\n";
-        let total = 0;
-        faltantes.forEach(p => { msg += `• ${p.nombre} (${p.super}) - ${p.precio.toFixed(2)}€\n`; total += p.precio; });
-        msg += `\n💰 *Total Estimado: ${total.toFixed(2)}€*`;
-        window.location.assign(`whatsapp://send?text=${encodeURIComponent(msg)}`);
-        setTimeout(() => { if (document.hasFocus()) window.location.assign(`https://wa.me{encodeURIComponent(msg)}`); }, 500);
+        let msg = "*📝 LISTA DE KORA*\n\n";
+        this.inventario.filter(p => p.cantidad <= p.stockBajo).forEach(p => msg += `• ${p.nombre}\n`);
+        window.location.href = "https://whatsapp.com" + encodeURIComponent(msg);
     },
 
-    save() { localStorage.setItem('despensa_db', JSON.stringify(this.inventario)); },
+    save() { localStorage.setItem('despensa_kora_final', JSON.stringify(this.inventario)); },
     toggleModal(s) { document.getElementById('modal-add').style.display = s ? 'flex' : 'none'; },
-    stopScan() { 
-        if(this.reader) this.reader.reset(); 
-        if(this.stream) this.stream.getTracks().forEach(t => t.stop());
-        document.getElementById('scanner-view').style.display = 'none'; 
-    }
+    startScan() { document.getElementById('scanner-view').style.display = 'block'; },
+    stopScan() { document.getElementById('scanner-view').style.display = 'none'; }
 };
 window.onload = () => app.init();
 </script>
