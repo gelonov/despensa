@@ -3,85 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Despensa Pro</title>
-    <!-- Librería con versión fija para evitar errores de carga -->
+    <title>nykdesp</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1f2937">
     <script src="https://unpkg.com"></script>
     <style>
-        /* (Mantén el mismo CSS que ya tienes, no ha cambiado) */
-        :root { --primary: #2563eb; --success: #22c55e; --danger: #ef4444; --whatsapp: #25D366; --bg: #f3f4f6; }
+        :root { 
+            --fondo-noche: #0d1117; 
+            --azul-principal: #1f2937; 
+            --texto-blanco: #ffffff;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --whatsapp: #25D366;
+            --borde: #30363d;
+        }
+
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .search-container { padding: 10px; background: white; }
-        #buscador { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #ddd; font-size: 16px; outline: none; }
-        main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
-        .card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; 
-                justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.4s ease; }
-        .fade-out { opacity: 0; transform: translateX(30px); pointer-events: none; }
-        .super-tag { font-size: 11px; background: #e5e7eb; padding: 2px 8px; border-radius: 10px; color: #4b5563; }
-        .controls { display: flex; align-items: center; gap: 12px; }
-        .btn-qty { border: none; width: 35px; height: 35px; border-radius: 10px; color: white; font-weight: bold; font-size: 20px; cursor: pointer; }
+        
+        body { background: var(--fondo-noche); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: var(--texto-blanco); }
+
+        header { 
+            background: var(--azul-principal); 
+            color: var(--texto-blanco); 
+            padding: 20px; 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--borde);
+        }
+        header h1 { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            letter-spacing: 0.5px;
+        }
+
+        .search-container { padding: 12px; background: var(--fondo-noche); }
+        #buscador { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: #161b22; color: white; font-size: 16px; outline: none; }
+
+        main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px; }
+        
+        .card { background: var(--azul-principal); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; 
+                justify-content: space-between; align-items: center; border: 1px solid var(--borde); transition: 0.3s; }
+        
+        .fade-out { opacity: 0; transform: translateX(30px); }
+        .super-tag { font-size: 12px; background: #374151; padding: 3px 10px; border-radius: 8px; color: #cbd5e1; margin-top: 5px; display: inline-block; }
+
+        .controls { display: flex; align-items: center; gap: 15px; }
+        .btn-qty { border: none; width: 42px; height: 42px; border-radius: 12px; color: white; font-weight: bold; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .bg-red { background: var(--danger); }
         .bg-green { background: var(--success); }
-        .stock-num { font-weight: bold; min-width: 20px; text-align: center; }
-        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; 
-               padding: 15px; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-        .nav-item { background: none; border: none; color: #6b7280; font-size: 12px; font-weight: 500; cursor: pointer; outline: none; }
-        .nav-item.active { color: var(--primary); }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: white; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #ddd; }
-        .btn-block { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; color: white; }
+        .stock-num { font-weight: bold; font-size: 18px; min-width: 25px; text-align: center; }
+
+        nav { position: fixed; bottom: 0; width: 100%; background: var(--fondo-noche); display: flex; justify-content: space-around; 
+               padding: 10px 0 25px 0; border-top: 1px solid var(--borde); }
+        .nav-item { background: none; border: none; color: #8b949e; font-size: 32px; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; }
+        .nav-item span { font-size: 11px; margin-top: 4px; font-weight: 600; }
+        .nav-item.active { color: #58a6ff; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
+        .modal-content { background: var(--azul-principal); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; color: white; border: 1px solid var(--borde); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid var(--borde); background: #0d1117; color: white; }
+        .btn-block { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 16px; }
+        
         #scanner-view { display: none; position: fixed; inset: 0; background: black; z-index: 200; }
         video { width: 100%; height: 80%; object-fit: cover; }
     </style>
 </head>
 <body>
 
-<header><h1 id="view-title">Mi Despensa</h1></header>
-<div class="search-container"><input type="text" id="buscador" placeholder="🔍 Buscar producto..." oninput="app.render()"></div>
+<header><h1>La Despensa de Kora</h1></header>
+
+<div class="search-container">
+    <input type="text" id="buscador" placeholder="🔍 Buscar producto..." oninput="app.render()">
+</div>
+
 <main id="app-render"></main>
 
 <div id="scanner-view">
     <video id="video" autoplay muted playsinline></video>
-    <button class="btn-block bg-red" onclick="app.stopScan()">Cancelar Escáner</button>
+    <button class="btn-block bg-red" onclick="app.stopScan()">CERRAR CÁMARA</button>
 </div>
 
 <div id="modal-add" class="modal">
     <div class="modal-content">
-        <h3>Añadir Producto</h3>
+        <h3>Nuevo Producto</h3>
         <input type="text" id="p-nombre" placeholder="Nombre">
         <input type="number" id="p-precio" step="0.01" placeholder="Precio (€)">
         <input type="text" id="p-super" placeholder="Supermercado">
         <div style="display:flex; gap:10px">
-            <input type="number" id="p-qty" placeholder="Cant.">
-            <input type="number" id="p-min" placeholder="Mínimo">
+            <input type="number" id="p-qty" placeholder="Cantidad">
+            <input type="number" id="p-min" placeholder="Aviso Mín.">
         </div>
-        <button class="btn-block bg-green" onclick="app.guardarManual()">Guardar</button>
-        <button class="btn-block" style="background:#888" onclick="app.toggleModal(false)">Cerrar</button>
+        <button class="btn-block bg-green" onclick="app.guardarManual()">GUARDAR</button>
+        <button class="btn-block" style="background:#484f58; color:white;" onclick="app.toggleModal(false)">CANCELAR</button>
     </div>
 </div>
 
 <nav>
-    <button id="nav-casa" class="nav-item active" onclick="app.cambiarVista('casa')">🏠 Casa</button>
-    <button class="nav-item" onclick="app.toggleModal(true)">➕ Nuevo</button>
-    <button class="nav-item" onclick="app.startScan()">📷 Scan</button>
-    <button id="nav-lista" class="nav-item" onclick="app.cambiarVista('lista')">🛒 Lista</button>
+    <button id="nav-casa" class="nav-item active" onclick="app.cambiarVista('casa')">🏠<span>Casa</span></button>
+    <button class="nav-item" onclick="app.toggleModal(true)">➕<span>Nuevo</span></button>
+    <button class="nav-item" onclick="app.startScan()">📷<span>Scan</span></button>
+    <button id="nav-lista" class="nav-item" onclick="app.cambiarVista('lista')">🛒<span>Lista</span></button>
 </nav>
 
 <script>
 const app = {
     view: 'casa',
     inventario: JSON.parse(localStorage.getItem('despensa_db')) || [],
-    reader: null, // Se inicializará solo si ZXing carga
+    reader: null,
 
     init() {
-        // Inicializar el lector de forma segura
         try {
             if (typeof ZXing !== 'undefined') {
                 this.reader = new ZXing.BrowserMultiFormatReader();
             }
-        } catch (e) { console.error("Error al cargar ZXing:", e); }
+        } catch (e) { console.error(e); }
         this.render();
     },
 
@@ -91,23 +126,20 @@ const app = {
         let listado = [...this.inventario];
 
         if (this.view === 'lista') {
-            document.getElementById('view-title').innerText = "Lista de Compra";
             listado = listado.filter(p => p.cantidad <= p.stockBajo);
-        } else {
-            document.getElementById('view-title').innerText = "Mi Despensa";
         }
 
         listado = listado.filter(p => p.nombre.toLowerCase().includes(term));
 
         let html = (this.view === 'lista' && listado.length > 0) ? 
-            `<button class="btn-block" style="background:var(--whatsapp)" onclick="app.exportarWA()">🟢 Enviar por WhatsApp</button>` : "";
+            `<button class="btn-block" style="background:var(--whatsapp); color:white; margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR LISTA WHATSAPP</button>` : "";
 
         listado.forEach(p => {
             html += `
                 <div class="card" id="prod-${p.id}">
                     <div>
-                        <strong>${p.nombre}</strong><br>
-                        <span class="super-tag">${p.super}</span> <small>${p.precio.toFixed(2)}€</small>
+                        <strong style="font-size:1.1rem">${p.nombre}</strong><br>
+                        <span class="super-tag">${p.super}</span> <small style="color:#8b949e; margin-left:5px">${p.precio.toFixed(2)}€</small>
                     </div>
                     <div class="controls">
                         <button class="btn-qty bg-red" onclick="app.cambiarStock(${p.id}, -1)">-</button>
@@ -116,7 +148,7 @@ const app = {
                     </div>
                 </div>`;
         });
-        container.innerHTML = html || `<p style="text-align:center;color:#888;margin-top:20px">No hay productos</p>`;
+        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">No hay productos...</p>`;
     },
 
     cambiarVista(v) {
@@ -138,20 +170,19 @@ const app = {
     },
 
     async startScan() {
-        if (!this.reader) {
-            alert("El escáner aún no está listo o ha fallado la carga. Inténtalo de nuevo.");
-            location.reload(); // Recarga para intentar cargar la librería de nuevo
-            return;
-        }
         document.getElementById('scanner-view').style.display = 'block';
         try {
-            await this.reader.decodeFromVideoDevice(null, 'video', async (res) => {
+            const videoElement = document.getElementById('video');
+            await this.reader.decodeFromVideoDevice(undefined, videoElement, (res) => {
                 if (res) {
                     this.stopScan();
-                    await this.buscarAPI(res.text);
+                    this.buscarAPI(res.text);
                 }
             });
-        } catch (e) { alert("Error cámara: usa HTTPS"); this.stopScan(); }
+        } catch (e) { 
+            alert("Acceso denegado: Toca el candado en la barra de direcciones y activa la cámara."); 
+            this.stopScan(); 
+        }
     },
 
     async buscarAPI(code) {
@@ -186,14 +217,25 @@ const app = {
 
     exportarWA() {
         const faltantes = this.inventario.filter(p => p.cantidad <= p.stockBajo);
-        let msg = "*📝 LISTA DE COMPRA*\n\n";
+        if (faltantes.length === 0) return alert("¡Tu lista de compra está vacía!");
+
+        let msg = "*📝 LISTA DE COMPRA DE KORA*\n\n";
         let total = 0;
         faltantes.forEach(p => {
             msg += `• ${p.nombre} (${p.super}) - ${p.precio.toFixed(2)}€\n`;
             total += p.precio;
         });
-        msg += `\n💰 *Total Est: ${total.toFixed(2)}€*`;
-        window.open(`https://wa.me{encodeURIComponent(msg)}`);
+        msg += `\n💰 *Total Estimado: ${total.toFixed(2)}€*`;
+
+        const finalMsg = encodeURIComponent(msg);
+        const whatsappUrl = `whatsapp://send?text=${finalMsg}`;
+        const webUrl = `https://wa.me{finalMsg}`;
+
+        // Abrir app nativa o respaldo web
+        window.location.assign(whatsappUrl);
+        setTimeout(() => {
+            if (document.hasFocus()) window.location.assign(webUrl);
+        }, 500);
     },
 
     save() { localStorage.setItem('despensa_db', JSON.stringify(this.inventario)); },
@@ -201,7 +243,6 @@ const app = {
     stopScan() { if(this.reader) this.reader.reset(); document.getElementById('scanner-view').style.display = 'none'; }
 };
 
-// Iniciar app al cargar la ventana
 window.onload = () => app.init();
 </script>
 </body>
