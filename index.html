@@ -3,49 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>La Despensa de Kora</title>
+    <title>nykdesp</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1f2937">
-    <!-- Librerías de Iconos y Escáner -->
+    
+    <!-- LIBRERÍAS (Actualizadas 2025) -->
     <link rel="stylesheet" href="https://jsdelivr.net">
-    <script src="https://unpkg.com"></script>
-    <script src="https://unpkg.com"></script>
-    <style>
-        :root { --fondo-noche: #0d1117; --azul-principal: #1f2937; --texto-blanco: #ffffff; --success: #22c55e; --danger: #ef4444; --whatsapp: #25D366; --borde: #30363d; --accent: #58a6ff; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--fondo-noche); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: var(--texto-blanco); }
-        
-        header { background: var(--azul-principal); padding: 20px; text-align: center; border-bottom: 1px solid var(--borde); }
-        header h1 { font-size: 1.5rem; font-weight: bold; }
+    <script src="https://jsdelivr.net"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
-        .search-container { padding: 12px; background: var(--fondo-noche); }
-        #buscador { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: #161b22; color: white; outline: none; }
+    <style>
+        :root { --fondo: #0d1117; --card: #1f2937; --txt: #ffffff; --green: #22c55e; --red: #ef4444; --wa: #25D366; --border: #30363d; --blue: #58a6ff; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--fondo); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: var(--txt); }
+        
+        header { background: var(--card); padding: 20px; text-align: center; border-bottom: 1px solid var(--border); }
+        header h1 { font-size: 1.5rem; font-weight: bold; color: var(--txt); }
+
+        .search-container { padding: 12px; background: var(--fondo); }
+        #buscador { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: #161b22; color: white; outline: none; }
 
         main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 110px; }
-        .card { background: var(--azul-principal); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--borde); }
+        .card { background: var(--card); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
         
-        /* Navegación Inferior Mejorada */
-        nav { position: fixed; bottom: 0; width: 100%; background: #0d1117; display: flex; justify-content: space-around; padding: 12px 0 25px 0; border-top: 1px solid var(--borde); z-index: 1000; }
-        .nav-item { background: none; border: none; color: #8b949e; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
-        .nav-item i { font-size: 28px; mb: 4px; } /* Iconos más grandes */
-        .nav-item span { font-size: 10px; font-weight: 600; text-transform: uppercase; }
-        .nav-item.active { color: var(--accent); transform: scale(1.1); }
+        nav { position: fixed; bottom: 0; width: 100%; background: var(--fondo); display: flex; justify-content: space-around; padding: 15px 0 30px 0; border-top: 1px solid var(--border); z-index: 100; }
+        .nav-item { background: none; border: none; color: #8b949e; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
+        .nav-item i { font-size: 28px; margin-bottom: 5px; }
+        .nav-item span { font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .nav-item.active { color: var(--blue); transform: scale(1.1); }
 
-        /* Botones de acción */
         .controls { display: flex; align-items: center; gap: 15px; }
-        .btn-qty { border: none; width: 40px; height: 40px; border-radius: 12px; color: white; font-weight: bold; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .bg-red { background: var(--danger); }
-        .bg-green { background: var(--success); }
+        .btn-qty { border: none; width: 42px; height: 42px; border-radius: 12px; color: white; font-weight: bold; font-size: 24px; cursor: pointer; }
+        .bg-red { background: var(--red); }
+        .bg-green { background: var(--green); }
 
-        /* Modales y Scanner */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1001; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: var(--azul-principal); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; color: white; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid var(--borde); background: #0d1117; color: white; }
+        .modal-content { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; color: white; border: 1px solid var(--border); }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid var(--border); background: #0d1117; color: white; }
         .btn-block { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; color: white; }
         
         #scanner-view { display: none; position: fixed; inset: 0; background: black; z-index: 2000; }
         video { width: 100%; height: 70%; object-fit: cover; }
-        .loading-ocr { display:none; position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.95); padding:30px; border-radius:15px; z-index:3000; text-align:center; border: 1px solid var(--accent); }
+        .loading-ocr { display:none; position: fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.95); padding:30px; border-radius:15px; z-index:3000; text-align:center; border: 1px solid var(--blue); }
     </style>
 </head>
 <body>
@@ -53,17 +52,17 @@
 <header><h1>La Despensa de Kora</h1></header>
 
 <div class="search-container" id="search-box">
-    <input type="text" id="buscador" placeholder="🔍 Buscar producto...">
+    <input type="text" id="buscador" placeholder="🔍 Buscar producto..." oninput="app.render()">
 </div>
 
-<div id="loading" class="loading-ocr">⏳ Leyendo Ticket...<br><small>Analizando precios</small></div>
+<div id="loading" class="loading-ocr">⏳ Leyendo Ticket...</div>
 
 <main id="app-render"></main>
 
 <div id="scanner-view">
     <video id="video" autoplay muted playsinline></video>
     <div style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
-        <button class="btn-block" style="background:var(--accent)" onclick="document.getElementById('file-input').click()">📷 SUBIR TICKET / CÓDIGO</button>
+        <button class="btn-block" style="background:var(--blue)" onclick="document.getElementById('file-input').click()">📷 SUBIR TICKET / CÓDIGO</button>
         <input type="file" id="file-input" accept="image/*" style="display:none" onchange="app.procesarImagen(event)">
         <button class="btn-block bg-red" onclick="app.stopScan()">CERRAR</button>
     </div>
@@ -74,12 +73,8 @@
         <h3>Nuevo Producto</h3>
         <select id="p-familia">
             <option value="Lácteos">Lácteos</option>
-            <option value="Fruta/Verdura">Fruta/Verdura</option>
-            <option value="Carnes/Pescados">Carnes/Pescados</option>
             <option value="Despensa">Despensa</option>
-            <option value="Bebidas">Bebidas</option>
             <option value="Limpieza">Limpieza</option>
-            <option value="Higiene">Higiene</option>
         </select>
         <input type="text" id="p-nombre" placeholder="Nombre">
         <input type="number" id="p-precio" step="0.01" placeholder="Precio (€)">
@@ -93,77 +88,59 @@
     </div>
 </div>
 
-<!-- Navegación con Iconos de Librería -->
 <nav>
     <button class="nav-item active" onclick="app.setVista('casa', this)">
-        <i class="bi bi-house-door-fill"></i>
-        <span>Casa</span>
+        <i class="bi bi-house-door-fill"></i><span>Casa</span>
     </button>
     <button class="nav-item" onclick="app.toggleModal(true)">
-        <i class="bi bi-plus-circle-fill"></i>
-        <span>Nuevo</span>
+        <i class="bi bi-plus-circle-fill"></i><span>Nuevo</span>
     </button>
     <button class="nav-item" onclick="app.startScan()">
-        <i class="bi bi-camera-fill"></i>
-        <span>Scan</span>
+        <i class="bi bi-camera-fill"></i><span>Scan</span>
     </button>
     <button class="nav-item" onclick="app.setVista('lista', this)">
-        <i class="bi bi-cart-fill"></i>
-        <span>Lista</span>
+        <i class="bi bi-cart-fill"></i><span>Lista</span>
     </button>
     <button class="nav-item" onclick="app.setVista('gastos', this)">
-        <i class="bi bi-bar-chart-fill"></i>
-        <span>Gastos</span>
+        <i class="bi bi-graph-up-arrow"></i><span>Gastos</span>
     </button>
 </nav>
 
 <script>
-// La lógica JS se mantiene igual que la anterior, 
-// asegurando que las funciones apunten a los nuevos botones
 const app = {
     view: 'casa',
-    subView: 'familias',
-    inventario: JSON.parse(localStorage.getItem('kora_v6_inv')) || [],
-    tickets: JSON.parse(localStorage.getItem('kora_v6_tickets')) || [],
-    reader: new ZXing.BrowserMultiFormatReader(),
+    inventario: JSON.parse(localStorage.getItem('kora_v7_inv')) || [],
+    reader: null,
 
-    init() { this.render(); },
+    init() {
+        try {
+            if (typeof ZXing !== 'undefined') this.reader = new ZXing.BrowserMultiFormatReader();
+        } catch (e) { console.error("Error cargando scanner"); }
+        this.render();
+    },
 
     render() {
         const container = document.getElementById('app-render');
-        if (this.view === 'gastos') { this.renderGastos(container); return; }
-        
         let listado = [...this.inventario];
         if (this.view === 'lista') listado = listado.filter(p => p.cantidad <= p.stockBajo);
         
-        let html = (this.view === 'lista' && listado.length > 0) ? `<button class="btn-block" style="background:var(--whatsapp); margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR WHATSAPP</button>` : "";
+        let html = (this.view === 'lista' && listado.length > 0) ? `<button class="btn-block" style="background:var(--wa); margin-bottom:20px;" onclick="app.exportarWA()">🟢 ENVIAR WHATSAPP</button>` : "";
         
         listado.forEach(p => {
             html += `
                 <div class="card">
                     <div>
-                        <strong>${p.nombre}</strong><br>
+                        <strong style="font-size:1.1rem">${p.nombre}</strong><br>
                         <small style="color:#8b949e">${p.super} | ${p.precio.toFixed(2)}€</small>
                     </div>
                     <div class="controls">
                         <button class="btn-qty bg-red" onclick="app.cambiarStock(${p.id}, -1)">-</button>
-                        <span style="font-weight:bold">${p.cantidad}</span>
+                        <span style="font-weight:bold; font-size:1.2rem">${p.cantidad}</span>
                         <button class="btn-qty bg-green" onclick="app.cambiarStock(${p.id}, 1)">+</button>
                     </div>
                 </div>`;
         });
-        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">Sin productos</p>`;
-    },
-
-    renderGastos(container) {
-        let html = `<h2 style="text-align:center; margin-bottom:20px">Gastos por Familia</h2>`;
-        const totales = {};
-        this.inventario.forEach(p => { totales[p.familia] = (totales[p.familia] || 0) + (p.precio * p.cantidad); });
-        
-        Object.keys(totales).forEach(f => {
-            html += `<div style="margin-bottom:10px"><span>${f}</span>: <b>${totales[f].toFixed(2)}€</b></div>`;
-        });
-        container.innerHTML = html;
+        container.innerHTML = html || `<p style="text-align:center; color:#8b949e; margin-top:40px">No hay productos</p>`;
     },
 
     setVista(v, btn) {
@@ -176,7 +153,7 @@ const app = {
     cambiarStock(id, d) {
         const p = this.inventario.find(i => i.id === id);
         p.cantidad = Math.max(0, p.cantidad + d);
-        localStorage.setItem('kora_v6_inv', JSON.stringify(this.inventario));
+        localStorage.setItem('kora_v7_inv', JSON.stringify(this.inventario));
         this.render();
     },
 
@@ -191,7 +168,7 @@ const app = {
             stockBajo: parseInt(document.getElementById('p-min').value) || 1
         };
         this.inventario.push(p);
-        localStorage.setItem('kora_v6_inv', JSON.stringify(this.inventario));
+        localStorage.setItem('kora_v7_inv', JSON.stringify(this.inventario));
         this.toggleModal(false);
         this.render();
     },
@@ -201,7 +178,7 @@ const app = {
     stopScan() { document.getElementById('scanner-view').style.display = 'none'; },
     
     exportarWA() {
-        let msg = "*LISTA DE COMPRA KORA*";
+        const msg = "*LISTA DE COMPRA KORA*";
         window.location.href = `https://wa.me{encodeURIComponent(msg)}`;
     }
 };
